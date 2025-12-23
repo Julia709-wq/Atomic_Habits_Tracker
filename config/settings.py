@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 from datetime import timedelta
+from celery.schedules import crontab
 
 
 load_dotenv(override=True)
@@ -136,3 +137,27 @@ CORS_ALLOWED_ORIGINS = [
  ]
 
 CORS_ALLOW_ALL_ORIGINS = False
+
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
+CELERY_DEFAULT_BACKEND = os.getenv('CELERY_DEFAULT_BACKEND')
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_ENABLE_UTC = True
+
+CELERY_BEAT_SCHEDULE = {
+    'send_reminder_notification': {
+        'task': 'tracker.tasks.send_reminder_notification',
+        'schedule': crontab(minute='*'),
+        'options': {
+            'expires': 60,
+        }
+    }
+}
+
+CELERY_BEAT_SCHEDULER = 'celery.beat.PersistentScheduler'
+
+
+TELEGRAM_URL = "https://api.telegram.org/bot"
+TELEGRAM_BOT_URL = "8008174985:AAHVhoLU_VC5dfEweEYoUsTCliWTg-ruhQ4"
