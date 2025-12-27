@@ -160,4 +160,4 @@ CELERY_BEAT_SCHEDULER = 'celery.beat.PersistentScheduler'
 
 
 TELEGRAM_URL = "https://api.telegram.org/bot"
-TELEGRAM_BOT_URL = "8008174985:AAHVhoLU_VC5dfEweEYoUsTCliWTg-ruhQ4"
+TELEGRAM_BOT_URL = os.getenv('TELEGRAM_BOT_URL')
